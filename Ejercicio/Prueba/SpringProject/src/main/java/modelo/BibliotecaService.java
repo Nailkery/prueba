@@ -20,6 +20,7 @@ public interface BibliotecaService {
 
     public Biblioteca getBiblioteca(int id);
 
+    public void deleteBiblioteca(int id);
     public List<Biblioteca> getBiblioteca();
     
 }

@@ -21,6 +21,7 @@ public interface AuthorService {
     public void updateAutor(Autor autor);
 
     public Autor getAutor(int id);
+    public void deleteAutor(int id );
 
     public List<Autor> getAutores();
 }

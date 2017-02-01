@@ -23,6 +23,26 @@
         <property name="annotatedClasses">
             <list>
                 <!--  Mapeo-->
+                <bean id="AutorDao" class= "modelo.AutorDao"
+                p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
+                </bean>
+                
+                
+                <bean id="BibliotecaDao" class= "modelo.BibliotecaDao"
+                p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
+                </bean>
+                
+                
+                <bean id="LecorLibroDao" class= "modelo.LecorLibroDao"
+                p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
+                </bean>
+                <bean id="LectorDao" class= "modelo.LectorDao"s
+                p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
+                </bean>
+               
+                 <bean id="LibroDao" class= "modelo.LibroDao"
+                p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
+                </bean> 
             </list>
         </property>    
         <property name="hibernateProperties">

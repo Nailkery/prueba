@@ -17,7 +17,7 @@ public interface LectorService {
 
     public void updateLector(Lector lector);
 
-    public Lector getAutor(int id);
-
+    public Lector getLector(int id);
+public void deleteLector(int id );
     public List<Lector> getLector();
 }

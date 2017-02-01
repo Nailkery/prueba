@@ -13,11 +13,13 @@ import java.util.List;
  * @author Rodrigo_Rivera
  */
 public interface LibroService {
-      public void addAutor(Libro libro);
 
-    public void updateAutor(Libro libro);
+    public void addLibro(Libro libro);
 
-    public Libro getAutor(int id);
+    public void updateLibro(Libro libro);
 
-    public List<Libro> getAutores();
+    public Libro getLibro(int id);
+    public void deleteTeam(int id);
+
+    public List<Libro> getLibro();
 }
