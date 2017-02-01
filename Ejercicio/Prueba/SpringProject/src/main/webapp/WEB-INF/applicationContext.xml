@@ -6,23 +6,29 @@
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd" >
     
     <!-- Se especifica la ruta del archivo que tendra los datos de la conexión a la BD,
-         en este caso el archivo se llama database.properties y se encuentra dentro de 
-         la carpeta WEB-INF -->
+    en este caso el archivo se llama database.properties y se encuentra dentro de 
+    la carpeta WEB-INF -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-        p:location="/WEB-INF/database.properties"/>
+          p:location="/WEB-INF/database.properties"/>
 
     <!--  Bean que realiza la conexión a la BD usando la informacion de database.properties-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-        p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.url}"
-        p:username="${jdbc.username}"
-        p:password="${jdbc.password}"/>
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}"/>
     
     <bean id="hibernate4AnnotatedSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
+                <value>MapeoBD.Autor</value>
+                <value>MapeoBD.Biblioteca</value>
+                <value>MapeoBD.Lector</value>
+                <value>MapeoBD.Lector_Libro</value>
+                <value>MapeoBD.Libro</value>
                 <!--  Mapeo-->
+                
             </list>
         </property>    
         <property name="hibernateProperties">
@@ -35,5 +41,20 @@
     </bean>
     
     <!--  DAO-->
+    <bean id="AutorDAO" class="modelo.AutorDAO"
+        p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
+    />
+    <bean id="BibliotecaDAO" class="modelo.BibliotecaDAO"
+        p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
+    />
+    <bean id="LectorDAO" class="modelo.LectorDAO"
+        p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
+    />
+    <bean id="Lector_LibroDAO" class="modelo.Lector_LibroDAO"
+        p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
+    />
+    <bean id="LibroDAO" class="modelo.LibroDAO"
+        p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
+    />
    
 </beans>
