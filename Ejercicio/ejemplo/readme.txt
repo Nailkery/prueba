@@ -9,3 +9,4 @@ y en (controlador) viene un ejemploe de las urls, normalmente se regresa un Mode
 se usa model.add para agregar el nombre de la variable/objeto(como cadena) y depues la variable/objeto.
 en ModelAndView se especifica el nombre del jsp que se regresa y el model con los datos adjuntos.
 por ultimo en (vista) se usa el hay un ejemplo de como desplegar la info usando ${}
+sda
