@@ -43,14 +43,9 @@ public class BibliotecaDAO {
     
     public String update(Biblioteca b, String nombre){
         Session session = sessionFactory.openSession();
-//        Transaction tx = null;
         b.setBiblioteca_nombre(nombre);
         try{
-//            tx = session.beginTransaction();
             session.update(b);
-//            Query query = session.createQuery("insert into autor values (:var , :var1)");
-//            query.setParameter("var", nombre);
-//            query.setParameter("var1", edad);
         }catch(Exception e){
             e.printStackTrace();
         }finally{
@@ -74,5 +69,22 @@ public class BibliotecaDAO {
             session.close();
         }
         return l;
+    }
+    
+    public Biblioteca porNombre(String nombre){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Biblioteca lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from biblioteca where nombre = :var");
+            query.setParameter("var", nombre);
+            lista = (Biblioteca) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
     }
 }

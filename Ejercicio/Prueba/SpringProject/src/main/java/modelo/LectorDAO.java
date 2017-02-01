@@ -5,11 +5,14 @@
  */
 package modelo;
 
+import MapaeoBD.Autor;
 import MapaeoBD.Biblioteca;
 import MapaeoBD.Lector;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -34,6 +37,23 @@ public class LectorDAO {
             session.close();
         }
         return nombre+ " agregado";
+    }
+    
+    public Lector porNombre(String nombre){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Lector lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from lector where nombre = :var");
+            query.setParameter("var", nombre);
+            lista = (Lector) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
     }
     
 }

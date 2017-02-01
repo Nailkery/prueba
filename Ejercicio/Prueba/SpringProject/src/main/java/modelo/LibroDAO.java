@@ -42,10 +42,8 @@ public class LibroDAO {
     
     public String update(Libro l, String nombre, int paginas, Biblioteca b, Autor a1){
         Session session = sessionFactory.openSession();
-//        Transaction tx = null;
         l.set(nombre, paginas, b, a1);
         try{
-//            tx = session.beginTransaction();
             session.update(l);
         }catch(Exception e){
             e.printStackTrace();
@@ -55,23 +53,38 @@ public class LibroDAO {
         return nombre+ " actualizado";
     }
     
-//    public String update(String nombre, int paginas, long biblioteca_id, long autor_id){
-//        Session session = sessionFactory.openSession();
-//        Transaction tx = null;
-//        try{
-//            tx = session.beginTransaction();
-//            Query query = session.createQuery("insert into libro values (:var , :var1, :var2, var3)");
-//            query.setParameter("var", nombre);
-//            query.setParameter("var1", paginas);
-//            query.setParameter("var2", biblioteca_id);
-//            query.setParameter("var1", autor_id);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }finally{
-//            session.close();
-//        }
-//        return nombre+ " agregado";
-//    }
+    public Libro porID(long id){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where id = :var");
+            query.setParameter("var", id);
+            lista = (Libro) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
+    }
     
+    public Libro porNombre(String nombre){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where nombre = :var");
+            query.setParameter("var", nombre);
+            lista = (Libro) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
+    }
     
 }

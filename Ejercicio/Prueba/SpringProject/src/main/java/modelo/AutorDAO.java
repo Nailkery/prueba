@@ -24,15 +24,10 @@ public class AutorDAO{
     
     public String insert(String nombre, int edad){
         Session session = sessionFactory.openSession();
-//        Transaction tx = null;
         Autor a = new Autor();
         a.set(nombre, edad);
         try{
-//            tx = session.beginTransaction();
             session.save(a);
-//            Query query = session.createQuery("insert into autor values (:var , :var1)");
-//            query.setParameter("var", nombre);
-//            query.setParameter("var1", edad);
         }catch(Exception e){
             e.printStackTrace();
         }finally{
@@ -43,14 +38,9 @@ public class AutorDAO{
     
     public String update(Autor a, String nombre, int edad){
         Session session = sessionFactory.openSession();
-//        Transaction tx = null;
         try{
-            //tx = session.beginTransaction();
             a.set(nombre, edad);
             session.update(a);
-//            Query query = session.createQuery("insert into autor values (:var , :var1)");
-//            query.setParameter("var", nombre);
-//            query.setParameter("var1", edad);
         }catch(Exception e){
             e.printStackTrace();
         }finally{
@@ -69,6 +59,23 @@ public class AutorDAO{
             tx = session.beginTransaction();
             Query query = session.createQuery("from autor where id = :var");
             query.setParameter("var", id);
+            lista = (Autor) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
+    }
+    
+    public Autor porNombre(String nombre){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Autor lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from autor where nombre = :var");
+            query.setParameter("var", nombre);
             lista = (Autor) query.uniqueResult();
         }catch(Exception e){
             e.printStackTrace();
