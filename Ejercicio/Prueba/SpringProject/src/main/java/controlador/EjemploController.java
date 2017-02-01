@@ -2,8 +2,11 @@
 package controlador;
 
 
-import MapaeoBD.Biblioteca;
+import MapeoBD.Biblioteca;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import modelo.AutorDAO;
 import modelo.BibliotecaDAO;
@@ -22,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author rae
  */
 @Controller
-public class EjemploController{
+public class EjemploController  {
     
     @Autowired
     private AutorDAO autor_bd;
@@ -44,20 +47,17 @@ public class EjemploController{
    
     
     @RequestMapping(value="/")
-    public String index(ModelMap model){
+    public ModelAndView index(ModelMap model){
         
-       
-        
-        return "datos";
+       return new ModelAndView("confirmacion", model); 
     }
     
     @RequestMapping(value="/admin/creaBiblioteca", method = RequestMethod.POST)
-    public ModelAndView creaBiblioteca(ModelMap model, HttpServletRequest request){
+    public ModelAndView creaBiblioteca(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
         String nombre = request.getParameter("nombre");
         biblioteca_bd.insert(nombre);
-        model.addAttribute("nombre", nombre);
-        
-        return new ModelAndView("confirmacion", model); 
+        model.addAttribute("nombre", nombre);        
+        return new ModelAndView("bibCreada", model); 
     }
     
     @RequestMapping(value="/admin/creaLibro", method = RequestMethod.POST)

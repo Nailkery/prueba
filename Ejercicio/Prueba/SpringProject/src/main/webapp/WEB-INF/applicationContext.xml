@@ -53,7 +53,7 @@
     <bean id="Lector_LibroDAO" class="modelo.Lector_LibroDAO"
         p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
     />
-    <bean id="LibroDAO" class="modelo.Libro DAO"
+    <bean id="LibroDAO" class="modelo.LibroDAO"
         p:sessionFactory-ref="hibernate4AnnotatedSessionFactory"
     />
    

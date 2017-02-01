@@ -5,9 +5,9 @@
  */
 package modelo;
 
-import MapaeoBD.Autor;
-import MapaeoBD.Biblioteca;
-import MapaeoBD.Libro;
+import MapeoBD.Autor;
+import MapeoBD.Biblioteca;
+import MapeoBD.Libro;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

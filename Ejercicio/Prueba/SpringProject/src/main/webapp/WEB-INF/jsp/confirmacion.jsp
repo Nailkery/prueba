@@ -9,9 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Ejercicio</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="/SpringProject/admin/creaBiblioteca" method="POST">
+            <input type="text" id="nombre" name ="nombre"/>
+            <input type="submit" value="Ingresar"/>
+        </form>
+        <a href="/admin/creaBiblioteca">Contact us</a>
     </body>
 </html>

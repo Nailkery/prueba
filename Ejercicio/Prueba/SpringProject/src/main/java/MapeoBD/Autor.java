@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MapaeoBD;
+package MapeoBD;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +23,6 @@ import javax.persistence.Table;
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    //colmnas de la base 
     @Column(name = "id") // nombre de la columana 
     private long autor_id;// como lo vamos a manejar
 

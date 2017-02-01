@@ -5,9 +5,9 @@
  */
 package modelo;
 
-import MapaeoBD.Autor;
-import MapaeoBD.Biblioteca;
-import MapaeoBD.Libro;
+import MapeoBD.Autor;
+import MapeoBD.Biblioteca;
+import MapeoBD.Libro;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

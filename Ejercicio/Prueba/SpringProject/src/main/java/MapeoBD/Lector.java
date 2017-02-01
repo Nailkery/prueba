@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MapaeoBD;
+package MapeoBD;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,9 +37,6 @@ public class Lector {
             
     @OneToMany
     @JoinColumn(name ="id")
-    private Lector_Libro ll;
-    // 1 -> n 
-    // lector -> lector_libro
     private Set<Lector_Libro> lector_libro = new HashSet<>();
 
     public Lector() {

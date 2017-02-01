@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MapaeoBD;
+package MapeoBD;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,7 +55,7 @@ public class Libro { // como sea  su nombre
     
     @OneToMany
     @JoinColumn(name = "id")
-    private Lector_Libro ll;
+    private Set<Lector_Libro> lectorLibro = new HashSet<>();
 
     public Libro() {
         this.libro_nombre = null;
