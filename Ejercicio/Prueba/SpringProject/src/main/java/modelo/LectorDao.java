@@ -7,51 +7,102 @@ package modelo;
 
 import MapaeoBD.Lector;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
  * @author Rodrigo_Rivera
  */
-public class LectorDao implements LectorService{
-private SessionFactory sessionFactory;
+public class LectorDao implements LectorService {
 
-    private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
-    @Override
-    public void addLector(Lector lector) {
-        getCurrentSession().save(lector);
-    }
+    private SessionFactory sessionFactory;
 
     @Override
-    public void updateLector(Lector lector) {
-        Lector lec = getLector((int) lector.getLector_id());
-        lec.setLector_correo(lector.getLector_correo());
-        lec.setLector_nombre(lector.getLector_nombre());
-        getCurrentSession().update(lec);
+    public void addLector(String correo, String nombre) {
+        Session session = sessionFactory.openSession();
+        Lector b = new Lector();
+        b.setLector_correo(correo);
+        b.setLector_nombre(nombre);
+        try {
+            session.save(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        session.close();
     }
 
-   
+    @Override
+    public void updateLector(int id, String correo, String nombre) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Lector b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from lector where id =" + id);
+            b = (Lector) query.uniqueResult();
+            b.setLector_correo(correo);
+            b.setLector_nombre(nombre);
+            session.update(b);
+        } catch (Exception e) {
+
+        }
+        session.close();
+    }
 
     @Override
     public List<Lector> getLector() {
-        return (List<Lector>) getCurrentSession().createQuery("from lector");
+        List<Lector> l = null;
+        String hql;
+        Session session = sessionFactory.openSession();
+        try {
+
+            Query query = session.createQuery("from lector");
+            if (!query.list().isEmpty()) {
+                l = query.list();
+            }
+        } catch (Exception e) {
+        }
+        session.close();
+        return l;
     }
 
     @Override
     public Lector getLector(int id) {
-        Lector lec = (Lector) getCurrentSession().get(Lector.class, id);
-        return lec;
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Lector b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from lector where id =" + id);
+            b = (Lector) query.uniqueResult();
+            session.delete(b);
+        } catch (Exception e) {
+
+        }
+        session.close();
+        return b;
     }
 
     @Override
     public void deleteLector(int id) {
-        Lector lector = getLector(id);
-        if(lector != null){
-            getCurrentSession().delete(lector);
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Lector b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from lector where id =" + id);
+            b = (Lector) query.uniqueResult();
+            session.delete(b);
+        } catch (Exception e) {
+
         }
+
+        session.close();
     }
-    
+
 }

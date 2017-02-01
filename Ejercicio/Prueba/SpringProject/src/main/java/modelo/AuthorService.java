@@ -16,9 +16,9 @@ import org.hibernate.SessionFactory;
  */
 public interface AuthorService {
 
-    public void addAutor(Autor autor);
+    public void addAutor(String  autor, int edad);
 
-    public void updateAutor(Autor autor);
+    public void updateAutor(int id ,String  autor, int edad);
 
     public Autor getAutor(int id);
     public void deleteAutor(int id );

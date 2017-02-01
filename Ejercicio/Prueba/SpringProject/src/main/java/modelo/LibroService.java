@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface LibroService {
 
-    public void addLibro(Libro libro);
+    public void addLibro(String nombre,int paginas);
 
-    public void updateLibro(Libro libro);
+    public void updateLibro(int id,String nombre,int paginas);
 
     public Libro getLibro(int id);
     public void deleteTeam(int id);

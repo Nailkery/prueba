@@ -14,9 +14,9 @@ import java.util.List;
  * @author Rodrigo_Rivera
  */
 public interface BibliotecaService {
-      public void addBiblioteca(Biblioteca biblioteca);
+      public void addBiblioteca(String nombre);
 
-    public void updateBiblioteca(Biblioteca biblioteca);
+    public void updateBiblioteca(int  id, String nombre);
 
     public Biblioteca getBiblioteca(int id);
 

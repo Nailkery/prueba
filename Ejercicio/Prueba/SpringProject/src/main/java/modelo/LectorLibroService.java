@@ -13,12 +13,14 @@ import java.util.List;
  * @author Rodrigo_Rivera
  */
 public interface LectorLibroService {
-      public void addLector_Libro(Lector_Libro lectorLibro);
 
-    public void updateLector_Libro(Lector_Libro lectorLibro);
+    public void addLector_Libro(String comentario, int edad);
+
+    public void updateLector_Libro(int id, String comentario, int edad);
 
     public Lector_Libro getLector_Libro(int id);
-    
-    public void deleteLector_Libro(int id );
+
+    public void deleteLector_Libro(int id);
+
     public List<Lector_Libro> getLector_Libro();
 }

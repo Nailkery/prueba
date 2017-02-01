@@ -7,8 +7,10 @@ package modelo;
 
 import MapaeoBD.Libro;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -17,44 +19,96 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public  class LibroDao implements LibroService{
 
-   @Autowired
+   
    private SessionFactory sessionFactory;
 
-   private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
+  
     @Override
-    public void addLibro(Libro libro) {
-        getCurrentSession().save(libro);
+    public void addLibro(String nombre,int paginas) {
+        Session session = sessionFactory.openSession();
+        Libro b = new Libro();
+        b.setLibro_Paginas(paginas);
+        b.setLibro_nombre(nombre);
+        try {
+            session.save(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        session.close();
     }
 
     
     @Override
-    public void updateLibro(Libro libro) {
-       Libro libroActua = getLibro((int) libro.getLibro_id());
-       libroActua.setLibro_nombre(libro.getLibro_nombre());
-       libroActua.setLibro_Paginas(libro.getLibro_Paginas());
-       getCurrentSession().update(libroActua);
+    public void updateLibro(int id,String nombre,int paginas) {
+       Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where id =" + id);
+            b = (Libro) query.uniqueResult();
+          b.setLibro_Paginas(paginas);
+        b.setLibro_nombre(nombre);
+            session.update(b);
+        } catch (Exception e) {
+
+        }
+        session.close();
     }
 
     @Override
     public Libro getLibro(int id) {
-        Libro libro = (Libro) getCurrentSession().get(Libro.class,id );
-        return libro;
+         Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where id =" + id);
+            b = (Libro) query.uniqueResult();
+            session.delete(b);
+        } catch (Exception e) {
+
+        }
+        session.close();
+        return b;
     }
 
     
 
     @Override
     public void deleteTeam(int id) {
-        Libro libro = getLibro(id);
-        if(libro != null){ // si no lo encuentra
-              getCurrentSession().delete(libro);
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where id =" + id);
+            b = (Libro) query.uniqueResult();
+            session.delete(b);
+        } catch (Exception e) {
+
         }
+
+        session.close();
     }
     @Override
     public List<Libro> getLibro() {
-     return (List<Libro>) getCurrentSession().createQuery("from libro");
+        List<Libro> l = null;
+        String hql;
+        Session session = sessionFactory.openSession();
+        try {
+
+            Query query = session.createQuery("from libro");
+            if (!query.list().isEmpty()) {
+                l = query.list();
+            }
+        } catch (Exception e) {
+        }
+        session.close();
+        return l;
+     
     }
    
 }

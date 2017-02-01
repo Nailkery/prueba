@@ -7,8 +7,10 @@ package modelo;
 
 import MapaeoBD.Autor;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -18,42 +20,91 @@ public class AutorDao implements AuthorService {
 
     private SessionFactory sessionFactory;
 
-    private Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+    @Override
+    public void addAutor(String autor, int edad) {
+        Session session = sessionFactory.openSession();
+        Autor b = new Autor();
+        b.setAutor_nombre(autor);
+        b.setAutor_edad(edad);
+        try {
+            session.save(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        session.close();
     }
 
     @Override
-    public void addAutor(Autor autor) {
-        getCurrentSession().save(autor);
-    }
+    public void updateAutor(int id, String autor, int edad) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Autor b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from autor where id =" + id);
+            b = (Autor) query.uniqueResult();
+            b.setAutor_nombre(autor);
+            b.setAutor_edad(edad);
+            session.update(b);
+        } catch (Exception e) {
 
-    @Override
-    public void updateAutor(Autor autor) {
-        Autor autorActulizado = getAutor((int) autor.getAutor_id());
-        autorActulizado.setAutor_nombre(autor.getAutor_nombre());
-        autorActulizado.setAutor_edad(autor.getAutor_edad());
-        getCurrentSession().update(autor);
+        }
+        session.close();
 
     }
 
     @Override
     public Autor getAutor(int id) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Autor b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from autor where id =" + id);
+            b = (Autor) query.uniqueResult();
+            session.delete(b);
+        } catch (Exception e) {
 
-        Autor autor = (Autor) getCurrentSession().get(Autor.class, id);
-        return autor;
+        }
+        session.close();
+        return b;
+
     }
 
     @Override
     public List<Autor> getAutores() {
-        return  (List<Autor>) getCurrentSession().createQuery("from autor");
+        List<Autor> l = null;
+        String hql;
+        Session session = sessionFactory.openSession();
+        try {
+
+            Query query = session.createQuery("from autor");
+            if (!query.list().isEmpty()) {
+                l = query.list();
+            }
+        } catch (Exception e) {
+        }
+        session.close();
+        return l;
     }
 
     @Override
     public void deleteAutor(int id) {
-        Autor autor = getAutor(id);
-        if(autor != null){
-            getCurrentSession().delete(autor);
+       Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Autor b = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from autor where id =" + id);
+            b = (Autor) query.uniqueResult();
+            session.delete(b);
+        } catch (Exception e) {
+
         }
+
+        session.close();
     }
 
 }
