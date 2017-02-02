@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import MapaeoBD.Biblioteca;
+import MapeoBD.Biblioteca;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -108,5 +108,6 @@ public class BibliotecaDao implements BibliotecaService {
 
         session.close();
     }
+
 
 }

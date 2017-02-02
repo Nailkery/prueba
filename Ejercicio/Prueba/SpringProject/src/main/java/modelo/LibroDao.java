@@ -5,7 +5,8 @@
  */
 package modelo;
 
-import MapaeoBD.Libro;
+import MapeoBD.Biblioteca;
+import MapeoBD.Libro;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -109,6 +110,57 @@ public  class LibroDao implements LibroService{
         session.close();
         return l;
      
+    }
+
+    /**
+     * agregar lib
+     * @param nombre
+     * @param paginas
+     * @param biblioteca 
+     */
+    
+    @Override
+    public void addLibro(String nombre, int paginas, int biblioteca) {
+        Session session = sessionFactory.openSession();
+        Libro b = new Libro();
+        b.setLibro_Paginas(paginas);
+        b.setLibro_nombre(nombre);
+        BibliotecaDao a = new BibliotecaDao();
+       
+        b.setBiblioteca(a.getBiblioteca(biblioteca));
+        try {
+            session.save(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        session.close();
+    }
+
+    /**
+     * 
+     * @param nombre
+     * @param paginas
+     * @param idAutor 
+     */
+    @Override
+    public void addLibroAutor(String nombre, int paginas, int idAutor) {
+        Session session = sessionFactory.openSession();
+        Libro b = new Libro();
+        AutorDao a = new AutorDao();
+        b.setLibro_Paginas(paginas);
+        b.setLibro_nombre(nombre);
+        b.setAutor(a.getAutor(idAutor));
+        try {
+            session.save(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        session.close();
+        
     }
    
 }

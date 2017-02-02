@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MapaeoBD;
+package MapeoBD;
 
 import javax.annotation.Generated;
 import javax.persistence.Column;
@@ -88,5 +88,22 @@ public class Libro { // como sea  su nombre
     public void setBiblioteca(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
     }
+
+    public int getLibro_paginas() {
+        return libro_paginas;
+    }
+
+    public void setLibro_paginas(int libro_paginas) {
+        this.libro_paginas = libro_paginas;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+    
 
 }

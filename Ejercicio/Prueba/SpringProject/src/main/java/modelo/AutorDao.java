@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import MapaeoBD.Autor;
+import MapeoBD.Autor;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -92,7 +92,7 @@ public class AutorDao implements AuthorService {
 
     @Override
     public void deleteAutor(int id) {
-       Session session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = null;
         Autor b = null;
         try {
@@ -104,6 +104,23 @@ public class AutorDao implements AuthorService {
 
         }
 
+        session.close();
+    }
+
+    @Override
+    public void addAutor(String autor, int edad, int idLibro) {
+        Session session = sessionFactory.openSession();
+        Autor b = new Autor();
+        b.setAutor_nombre(autor);
+        b.setAutor_edad(edad);
+
+        try {
+            session.save(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         session.close();
     }
 

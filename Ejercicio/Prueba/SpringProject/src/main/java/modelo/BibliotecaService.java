@@ -5,8 +5,8 @@
  */
 package modelo;
 
-import MapaeoBD.Autor;
-import MapaeoBD.Biblioteca;
+import MapeoBD.Autor;
+import MapeoBD.Biblioteca;
 import java.util.List;
 
 /**
@@ -14,13 +14,15 @@ import java.util.List;
  * @author Rodrigo_Rivera
  */
 public interface BibliotecaService {
-      public void addBiblioteca(String nombre);
 
-    public void updateBiblioteca(int  id, String nombre);
+    public void addBiblioteca(String nombre);
+
+    public void updateBiblioteca(int id, String nombre);
 
     public Biblioteca getBiblioteca(int id);
 
     public void deleteBiblioteca(int id);
+
     public List<Biblioteca> getBiblioteca();
-    
+
 }

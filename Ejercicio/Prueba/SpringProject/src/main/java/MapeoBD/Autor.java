@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MapaeoBD;
+package MapeoBD;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +32,7 @@ public class Autor {
 
     @Column(name = "edad")
     private int autor_edad;
+    
 
     public Autor() {
         this.autor_nombre = null;

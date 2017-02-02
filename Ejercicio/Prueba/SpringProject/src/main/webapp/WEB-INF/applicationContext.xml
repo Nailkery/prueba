@@ -36,6 +36,7 @@
                 <bean id="LecorLibroDao" class= "modelo.LecorLibroDao"
                 p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
                 </bean>
+                
                 <bean id="LectorDao" class= "modelo.LectorDao"s
                 p:sessionFactory-ref = "hibernate4AnnotatedSessionFactory"
                 </bean>

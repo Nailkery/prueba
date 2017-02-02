@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import MapaeoBD.Lector_Libro;
+import MapeoBD.Lector_Libro;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;

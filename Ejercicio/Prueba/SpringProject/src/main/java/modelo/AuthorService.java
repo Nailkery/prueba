@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import MapaeoBD.Autor;
+import MapeoBD.Autor;
 import java.util.List;
 import javax.websocket.Session;
 import org.hibernate.SessionFactory;
@@ -16,12 +16,15 @@ import org.hibernate.SessionFactory;
  */
 public interface AuthorService {
 
-    public void addAutor(String  autor, int edad);
+    public void addAutor(String autor, int edad);
 
-    public void updateAutor(int id ,String  autor, int edad);
+    public void addAutor(String autor, int edad, int idLibro);
+
+    public void updateAutor(int id, String autor, int edad);
 
     public Autor getAutor(int id);
-    public void deleteAutor(int id );
+
+    public void deleteAutor(int id);
 
     public List<Autor> getAutores();
 }

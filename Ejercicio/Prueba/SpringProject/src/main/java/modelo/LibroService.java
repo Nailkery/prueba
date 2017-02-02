@@ -5,7 +5,8 @@
  */
 package modelo;
 
-import MapaeoBD.Libro;
+import MapeoBD.Biblioteca;
+import MapeoBD.Libro;
 import java.util.List;
 
 /**
@@ -15,6 +16,8 @@ import java.util.List;
 public interface LibroService {
 
     public void addLibro(String nombre,int paginas);
+    public void addLibro(String nombre,int paginas,int idBiblioteca);
+    public void addLibroAutor(String nombre,int paginas,int idAutor);
 
     public void updateLibro(int id,String nombre,int paginas);
 
