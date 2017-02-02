@@ -57,7 +57,7 @@ public class AutorDAO{
         Autor lista = null;
         try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from autor where id = :var");
+            Query query = session.createQuery("from Autor where id = :var");
             query.setParameter("var", id);
             lista = (Autor) query.uniqueResult();
         }catch(Exception e){
@@ -74,7 +74,7 @@ public class AutorDAO{
         Autor lista = null;
         try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from autor where nombre = :var");
+            Query query = session.createQuery("from Autor where nombre = :var");
             query.setParameter("var", nombre);
             lista = (Autor) query.uniqueResult();
         }catch(Exception e){

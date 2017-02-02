@@ -26,11 +26,9 @@ public class LibroDAO {
     
     public String insert(String nombre, int paginas, Biblioteca b, Autor a1){
         Session session = sessionFactory.openSession();
-//        Transaction tx = null;
         Libro a = new Libro();
         a.set(nombre, paginas, b, a1);
         try{
-//            tx = session.beginTransaction();
             session.save(a);
         }catch(Exception e){
             e.printStackTrace();

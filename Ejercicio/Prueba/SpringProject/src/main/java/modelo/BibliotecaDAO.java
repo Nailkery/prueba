@@ -60,7 +60,7 @@ public class BibliotecaDAO {
         List l = null;
         try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from libro where biblioteca_id = :var");
+            Query query = session.createQuery("from Libro where biblioteca_id = :var");
             query.setParameter("var", b.getBiblioteca_id());
             l = query.list();
         }catch(Exception e){
@@ -77,7 +77,7 @@ public class BibliotecaDAO {
         Biblioteca lista = null;
         try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from biblioteca where nombre = :var");
+            Query query = session.createQuery("from Biblioteca where nombre = :var");
             query.setParameter("var", nombre);
             lista = (Biblioteca) query.uniqueResult();
         }catch(Exception e){

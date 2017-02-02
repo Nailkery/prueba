@@ -2,6 +2,7 @@
 package controlador;
 
 
+import MapeoBD.Autor;
 import MapeoBD.Biblioteca;
 import java.io.IOException;
 import java.util.List;
@@ -63,14 +64,16 @@ public class EjemploController  {
     @RequestMapping(value="/admin/creaLibro", method = RequestMethod.POST)
     public ModelAndView creaLibro(ModelMap model, HttpServletRequest request){
         String nombre = request.getParameter("nombre");
-        String pag = request.getParameter("pag");
-        String bib = request.getParameter("bib");
-        String autor = request.getParameter("autor");
-        
-        libro_bd.insert(nombre, Integer.parseInt(pag), biblioteca_bd.porNombre(bib), autor_bd.porNombre(autor));
+        String pag = request.getParameter("paginas");
+        String bib = request.getParameter("biblioteca_id");
+        String autor = request.getParameter("autor_id");
+        int a = Integer.parseInt(pag);
+        Biblioteca b = biblioteca_bd.porNombre(bib);
+        Autor c = autor_bd.porNombre(autor);
+        libro_bd.insert(nombre, a, b, c);
         model.addAttribute("nombre", nombre);
         
-        return new ModelAndView("confirmacion", model); 
+        return new ModelAndView("bibCreada", model); 
     }
     
     @RequestMapping(value="/admin/editaLibro", method = RequestMethod.POST)

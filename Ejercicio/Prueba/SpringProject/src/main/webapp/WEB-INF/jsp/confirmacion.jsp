@@ -12,10 +12,24 @@
         <title>Ejercicio</title>
     </head>
     <body>
+        Crear Biblioteca
         <form action="/SpringProject/admin/creaBiblioteca" method="POST">
             <input type="text" id="nombre" name ="nombre"/>
             <input type="submit" value="Ingresar"/>
         </form>
-        <a href="/admin/creaBiblioteca">Contact us</a>
+        Crear un libro
+        <form action="/SpringProject/admin/creaLibro" method="POST">
+            <input type="text" id="nombre" name ="nombre"/>
+            <input type="text" id="paginas" name="paginas"/>
+            <input type="text" id="biblioteca_id" name ="biblioteca_id"/>
+            <input type="text" id="autor_id" name ="autor_id"/>
+            <input type="submit" value="Ingresar"/>
+        </form>
+        Crear un autor
+        <form action="/SpringProject/admin/creaAutor" method="POST">
+            <input type="text" id="nombre" name ="nombre"/>
+            <input type="text" id="edad" name="edad"/>
+            <input type="submit" value="Ingresar"/>
+        </form>
     </body>
 </html>
