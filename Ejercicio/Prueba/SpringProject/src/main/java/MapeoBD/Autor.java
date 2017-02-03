@@ -10,20 +10,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author Rodrigo
  */
 @Entity
 @Table(name = "autor")
 public class Autor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    //colmnas de la base 
     @Column(name = "id") // nombre de la columana 
     private long autor_id;// como lo vamos a manejar
 
@@ -32,8 +32,12 @@ public class Autor {
 
     @Column(name = "edad")
     private int autor_edad;
-    
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Libro l;
+
+    
     public Autor() {
         this.autor_nombre = null;
         this.autor_edad = 0;
@@ -62,8 +66,10 @@ public class Autor {
     public void setAutor_edad(int autor_edad) {
         this.autor_edad = autor_edad;
     }
-    
-    
-    
-    
+
+    public void set(String nombre, int edad) {
+        this.autor_nombre = nombre;
+        this.autor_edad = edad;
+    }
+
 }

@@ -5,6 +5,8 @@
  */
 package MapeoBD;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,12 +15,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author luis
  */
 @Entity
 @Table(name = "libro") // si tiene que ir como en la de la base
@@ -50,11 +53,18 @@ public class Libro { // como sea  su nombre
     @JoinColumn(name = "autor_id")
     private Autor autor;
 
+    @OneToMany
+    @JoinColumn(name = "id")
+    private Set<Lector_Libro> lectorLibro = new HashSet<>();
+
+    /**
+     * debe de tener get an set de cada varible y el contructor null
+     */
     public Libro() {
         this.libro_nombre = null;
         this.biblioteca = null;
         this.autor = null;
-        this.libro_paginas=0;
+        this.libro_paginas = 0;
     }
 
     public long getLibro_id() {
@@ -89,21 +99,17 @@ public class Libro { // como sea  su nombre
         this.biblioteca = biblioteca;
     }
 
-    public int getLibro_paginas() {
-        return libro_paginas;
+    public void set(String libro_nombre, int paginas, Biblioteca b, Autor a) {
+        this.libro_nombre = libro_nombre;
+        this.libro_paginas = paginas;
+        this.biblioteca = b;
+        this.autor = a;
     }
 
-    public void setLibro_paginas(int libro_paginas) {
-        this.libro_paginas = libro_paginas;
+    public void set(String libro_nombre, int paginas, Autor a) {
+        this.libro_nombre = libro_nombre;
+        this.libro_paginas = paginas;
+        
+        this.autor = a;
     }
-
-    public Autor getAutor() {
-        return autor;
-    }
-
-    public void setAutor(Autor autor) {
-        this.autor = autor;
-    }
-    
-
 }

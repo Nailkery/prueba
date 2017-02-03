@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author luis
  */
 @Entity
 @Table(name = "lector") // si tiene que ir como en la de la base
@@ -36,11 +36,13 @@ public class Lector {
     private String Lector_correo;
             
     @OneToMany
-    @JoinColumn(name ="lector")
-    // 1 -> n 
-    // lector -> lector_libro
+    @JoinColumn(name ="id")
     private Set<Lector_Libro> lector_libro = new HashSet<>();
 
+    
+    /**
+     * debe de tener get an set de cada varible y el contructor null
+     */
     public Lector() {
         this.Lector_nombre = null;
         this.Lector_correo = null;
@@ -78,6 +80,9 @@ public class Lector {
         this.lector_libro = lector_libro;
     }
     
-    
+    public void set(String nombre, String correo){
+        this.Lector_nombre = nombre;
+        this.Lector_correo = correo;
+    }
     
 }

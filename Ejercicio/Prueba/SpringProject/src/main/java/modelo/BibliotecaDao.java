@@ -5,109 +5,106 @@
  */
 package modelo;
 
+import MapeoBD.Autor;
 import MapeoBD.Biblioteca;
+import MapeoBD.Libro;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author luis
  */
-public class BibliotecaDao implements BibliotecaService {
-
+public class BibliotecaDAO {
     private SessionFactory sessionFactory;
-
-   
-
-    @Override
-    public void addBiblioteca(String nombre) {
+    
+    public void setSessionFactory (SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+    
+    public String insert(String nombre){
         Session session = sessionFactory.openSession();
         Biblioteca a = new Biblioteca();
-        a.setLibro_nombre(nombre);
-        try {
+        a.setBiblioteca_nombre(nombre);
+        try{
             session.save(a);
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
-        } finally {
+        }finally{
             session.close();
         }
+        return nombre+ " agregado";
     }
-
-    @Override
-    public void updateBiblioteca(int id, String nombre) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Biblioteca b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from biblioteca where id =" + id);
-            b = (Biblioteca) query.uniqueResult();
-            b.setLibro_nombre(nombre);
-            session.update(b);
-        } catch (Exception e) {
-
-        }
-
-        session.close();
-
-    }
-
-    @Override
-    public Biblioteca getBiblioteca(int id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Biblioteca b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from biblioteca where id =" + id);
-            b = (Biblioteca) query.uniqueResult();
-            session.delete(b);
-        } catch (Exception e) {
-
-        }
-        session.close();
-        return b;
-    }
-
     
-    @Override
-    public List<Biblioteca> getBiblioteca() {
-
-        List<Biblioteca> l = null;
-        String hql;
+    public String update(Biblioteca b, String nombre){
         Session session = sessionFactory.openSession();
-        try {
-
-            Query query = session.createQuery("from biblioteca");
-            if (!query.list().isEmpty()) {
-                l = query.list();
-            }
-        } catch (Exception e) {
+        b.setBiblioteca_nombre(nombre);
+        try{
+            session.update(b);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
         }
-        session.close();
+        return nombre+ " actualizado";
+    }
+    
+    public List cont(Biblioteca b){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        List l = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from Libro where biblioteca_id = :var");
+            query.setParameter("var", b.getBiblioteca_id());
+            l = query.list();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
         return l;
     }
-
-    @Override
-    public void deleteBiblioteca(int id) {
+    
+    public Biblioteca porNombre(String nombre){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
-        Biblioteca b = null;
-        try {
+        Biblioteca biblioteca = null;
+        try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from biblioteca where id =" + id);
-            b = (Biblioteca) query.uniqueResult();
-            session.delete(b);
-        } catch (Exception e) {
-
+            Query query = session.createQuery("from biblioteca where nombre = :var");
+            query.setParameter("var", nombre);
+            biblioteca = (Biblioteca) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
         }
-
-        session.close();
+        return biblioteca;
     }
-
-
+    
+     public Biblioteca getID(int  id){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Biblioteca biblioteca = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from biblioteca where id = "+id);
+              System.out.println("--------------------------si lo encontre y es este "
+                    + ""+biblioteca.getBiblioteca_nombre());
+            biblioteca = (Biblioteca) query.uniqueResult();
+            System.out.println("--------------------------si lo encontre y es este "
+                    + ""+biblioteca.getBiblioteca_nombre());
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return biblioteca;
+    }
 }

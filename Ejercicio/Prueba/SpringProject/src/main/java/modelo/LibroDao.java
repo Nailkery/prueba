@@ -5,162 +5,84 @@
  */
 package modelo;
 
+import MapeoBD.Autor;
 import MapeoBD.Biblioteca;
 import MapeoBD.Libro;
-import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author luis
  */
-public  class LibroDao implements LibroService{
-
-   
-   private SessionFactory sessionFactory;
-
-  
-    @Override
-    public void addLibro(String nombre,int paginas) {
+public class LibroDAO {
+    private SessionFactory sessionFactory;
+    
+    public void setSessionFactory (SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+    
+    public String insert(String nombre, int paginas, Biblioteca b, Autor a1){
         Session session = sessionFactory.openSession();
-        Libro b = new Libro();
-        b.setLibro_Paginas(paginas);
-        b.setLibro_nombre(nombre);
-        try {
-            session.save(b);
-        } catch (Exception e) {
+        Libro a = new Libro();
+        a.set(nombre, paginas, b, a1);
+        try{
+            session.save(a);
+        }catch(Exception e){
             e.printStackTrace();
-        } finally {
+        }finally{
             session.close();
         }
-        session.close();
-    }
-
-    
-    @Override
-    public void updateLibro(int id,String nombre,int paginas) {
-       Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Libro b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from libro where id =" + id);
-            b = (Libro) query.uniqueResult();
-          b.setLibro_Paginas(paginas);
-        b.setLibro_nombre(nombre);
-            session.update(b);
-        } catch (Exception e) {
-
-        }
-        session.close();
-    }
-
-    @Override
-    public Libro getLibro(int id) {
-         Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Libro b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from libro where id =" + id);
-            b = (Libro) query.uniqueResult();
-            session.delete(b);
-        } catch (Exception e) {
-
-        }
-        session.close();
-        return b;
-    }
-
-    
-
-    @Override
-    public void deleteTeam(int id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Libro b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from libro where id =" + id);
-            b = (Libro) query.uniqueResult();
-            session.delete(b);
-        } catch (Exception e) {
-
-        }
-
-        session.close();
-    }
-    @Override
-    public List<Libro> getLibro() {
-        List<Libro> l = null;
-        String hql;
-        Session session = sessionFactory.openSession();
-        try {
-
-            Query query = session.createQuery("from libro");
-            if (!query.list().isEmpty()) {
-                l = query.list();
-            }
-        } catch (Exception e) {
-        }
-        session.close();
-        return l;
-     
-    }
-
-    /**
-     * agregar lib
-     * @param nombre
-     * @param paginas
-     * @param biblioteca 
-     */
-    
-    @Override
-    public void addLibro(String nombre, int paginas, int biblioteca) {
-        Session session = sessionFactory.openSession();
-        Libro b = new Libro();
-        b.setLibro_Paginas(paginas);
-        b.setLibro_nombre(nombre);
-        BibliotecaDao a = new BibliotecaDao();
-       
-        b.setBiblioteca(a.getBiblioteca(biblioteca));
-        try {
-            session.save(b);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        session.close();
-    }
-
-    /**
-     * 
-     * @param nombre
-     * @param paginas
-     * @param idAutor 
-     */
-    @Override
-    public void addLibroAutor(String nombre, int paginas, int idAutor) {
-        Session session = sessionFactory.openSession();
-        Libro b = new Libro();
-        AutorDao a = new AutorDao();
-        b.setLibro_Paginas(paginas);
-        b.setLibro_nombre(nombre);
-        b.setAutor(a.getAutor(idAutor));
-        try {
-            session.save(b);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        session.close();
-        
+        return nombre+ " agregado";
     }
    
+    public String update(Libro l, String nombre, int paginas, Biblioteca b, Autor a1){
+        Session session = sessionFactory.openSession();
+        l.set(nombre, paginas, b, a1);
+        try{
+            session.update(l);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return nombre+ " actualizado";
+    }
+    
+    public Libro porID(long id){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where id = :var");
+            query.setParameter("var", id);
+            lista = (Libro) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
+    }
+    
+    public Libro porNombre(String nombre){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Libro lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from libro where nombre = :var");
+            query.setParameter("var", nombre);
+            lista = (Libro) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
+    }
+    
 }

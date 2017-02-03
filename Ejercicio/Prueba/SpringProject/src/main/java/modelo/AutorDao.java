@@ -6,7 +6,6 @@
 package modelo;
 
 import MapeoBD.Autor;
-import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,114 +13,89 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author Rodrigo
  */
-public class AutorDao implements AuthorService {
-
+public class AutorDAO{
     private SessionFactory sessionFactory;
-
-    @Override
-    public void addAutor(String autor, int edad) {
+    
+    public void setSessionFactory (SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+    
+    /**
+     * inserta un autor 
+     * @param nombre
+     * @param edad 
+     */
+    public void insert(String nombre, int edad){
         Session session = sessionFactory.openSession();
-        Autor b = new Autor();
-        b.setAutor_nombre(autor);
-        b.setAutor_edad(edad);
-        try {
-            session.save(b);
-        } catch (Exception e) {
+        Autor a = new Autor();
+        a.set(nombre, edad);
+        try{
+            session.save(a);
+        }catch(Exception e){
             e.printStackTrace();
-        } finally {
+        }finally{
             session.close();
         }
-        session.close();
+        
     }
-
-    @Override
-    public void updateAutor(int id, String autor, int edad) {
+    
+    /**
+     * acutliza un autor 
+     * @param a
+     * @param nombre
+     * @param edad 
+     */
+    public void update(Autor a, String nombre, int edad){
         Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Autor b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from autor where id =" + id);
-            b = (Autor) query.uniqueResult();
-            b.setAutor_nombre(autor);
-            b.setAutor_edad(edad);
-            session.update(b);
-        } catch (Exception e) {
-
-        }
-        session.close();
-
-    }
-
-    @Override
-    public Autor getAutor(int id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Autor b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from autor where id =" + id);
-            b = (Autor) query.uniqueResult();
-            session.delete(b);
-        } catch (Exception e) {
-
-        }
-        session.close();
-        return b;
-
-    }
-
-    @Override
-    public List<Autor> getAutores() {
-        List<Autor> l = null;
-        String hql;
-        Session session = sessionFactory.openSession();
-        try {
-
-            Query query = session.createQuery("from autor");
-            if (!query.list().isEmpty()) {
-                l = query.list();
-            }
-        } catch (Exception e) {
-        }
-        session.close();
-        return l;
-    }
-
-    @Override
-    public void deleteAutor(int id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        Autor b = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from autor where id =" + id);
-            b = (Autor) query.uniqueResult();
-            session.delete(b);
-        } catch (Exception e) {
-
-        }
-
-        session.close();
-    }
-
-    @Override
-    public void addAutor(String autor, int edad, int idLibro) {
-        Session session = sessionFactory.openSession();
-        Autor b = new Autor();
-        b.setAutor_nombre(autor);
-        b.setAutor_edad(edad);
-
-        try {
-            session.save(b);
-        } catch (Exception e) {
+        try{
+            a.set(nombre, edad);
+            session.update(a);
+        }catch(Exception e){
             e.printStackTrace();
-        } finally {
+        }finally{
             session.close();
         }
-        session.close();
+        
+    }
+    
+    /**
+     * actualiza un autopor por el id
+     * @param id
+     * @param nombre
+     * @param edad 
+     */
+    public void uptdate(int id , String nombre ,int edad){
+        Session session = sessionFactory.openSession();
+        try {
+            Autor a = AutorPorID(id);
+            a.set(nombre, edad);
+            session.update(a);
+        } catch (Exception e) {
+        }
+            
+    }
+    
+    /**
+     * busca un autor por ID 
+     * @param id
+     * @return 
+     */
+    public Autor AutorPorID(int id){
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        Autor lista = null;
+        try{
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from Autor where id = "+id);
+            lista = (Autor) query.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return lista;
     }
 
 }

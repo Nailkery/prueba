@@ -5,6 +5,8 @@
  */
 package MapeoBD;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,15 +14,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author luis
  */
 @Entity
 @Table(name = "biblioteca") // si tiene que ir como en la de la base
 public class Biblioteca {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -31,27 +36,32 @@ public class Biblioteca {
     @Column(name = "nombre")
     private String biblioteca_nombre;
 
+    @OneToMany
+    @JoinColumn(name = "id")
+    private Set<Libro> l = new HashSet<>();
+
+    /**
+     * debe de tener get an set de cada varible y el contructor null
+     */
+
     public Biblioteca() {
         this.biblioteca_nombre = null;
     }
-    
 
-    public long getLibro_id() {
+    public long getBiblioteca_id() {
         return biblioteca_id;
     }
 
-    public void setLibro_id(long libro_id) {
+    public void setBiblioteca_id(long libro_id) {
         this.biblioteca_id = libro_id;
     }
 
-    public String getLibro_nombre() {
+    public String getBiblioteca_nombre() {
         return biblioteca_nombre;
     }
 
-    public void setLibro_nombre(String libro_nombre) {
+    public void setBiblioteca_nombre(String libro_nombre) {
         this.biblioteca_nombre = libro_nombre;
     }
-    
-    
-    
+
 }

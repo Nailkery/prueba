@@ -16,31 +16,32 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rodrigo_Rivera
+ * @author luis
  */
 @Entity
 @Table(name = "lector_libro")
 public class Lector_Libro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+
     @Column(name = "id") // nombre de la columana 
     private long lector_libro_id;// como lo vamos a manejar
 
     @ManyToOne
     @JoinColumn(name = "id_libro")
     private Libro libro;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_lector")
     private Lector lector;
-    
-    @Column(name = "nombre")
+
+    @Column(name = "comentario")
     private String lector_libro_comentario;
 
-    @Column(name = "edad")
-    private int autor_edad;
-
+    /**
+     * debe de tener get an set de cada varible y el contructor null
+     */
     public Lector_Libro() {
         this.lector_libro_comentario = null;
     }
@@ -77,13 +78,9 @@ public class Lector_Libro {
         this.lector_libro_comentario = lector_libro_comentario;
     }
 
-    public int getAutor_edad() {
-        return autor_edad;
+    public void set(Libro libro, Lector lector, String coment) {
+        this.libro = libro;
+        this.lector = lector;
+        this.lector_libro_comentario = coment;
     }
-
-    public void setAutor_edad(int autor_edad) {
-        this.autor_edad = autor_edad;
-    }
-    
-    
 }
