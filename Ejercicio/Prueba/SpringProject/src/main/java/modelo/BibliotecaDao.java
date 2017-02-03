@@ -21,88 +21,87 @@ import org.hibernate.Transaction;
  * @author luis
  */
 public class BibliotecaDAO {
+
     private SessionFactory sessionFactory;
-    
-    public void setSessionFactory (SessionFactory sessionFactory){
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    
-    public String insert(String nombre){
+
+    public String insert(String nombre) {
         Session session = sessionFactory.openSession();
         Biblioteca a = new Biblioteca();
         a.setBiblioteca_nombre(nombre);
-        try{
+        try {
             session.save(a);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             session.close();
         }
-        return nombre+ " agregado";
+        return nombre + " agregado";
     }
-    
-    public String update(Biblioteca b, String nombre){
+
+    public String update(Biblioteca b, String nombre) {
         Session session = sessionFactory.openSession();
         b.setBiblioteca_nombre(nombre);
-        try{
+        try {
             session.update(b);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             session.close();
         }
-        return nombre+ " actualizado";
+        return nombre + " actualizado";
     }
-    
-    public List cont(Biblioteca b){
+
+    public List cont(Biblioteca b) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         List l = null;
-        try{
+        try {
             tx = session.beginTransaction();
             Query query = session.createQuery("from Libro where biblioteca_id = :var");
             query.setParameter("var", b.getBiblioteca_id());
             l = query.list();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             session.close();
         }
         return l;
     }
-    
-    public Biblioteca porNombre(String nombre){
+
+    public Biblioteca porNombre(String nombre) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Biblioteca biblioteca = null;
-        try{
+        try {
             tx = session.beginTransaction();
             Query query = session.createQuery("from biblioteca where nombre = :var");
             query.setParameter("var", nombre);
             biblioteca = (Biblioteca) query.uniqueResult();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             session.close();
         }
         return biblioteca;
     }
-    
-     public Biblioteca getID(int  id){
+
+    public Biblioteca getID(long id) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Biblioteca biblioteca = null;
-        try{
+        try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("from biblioteca where id = "+id);
-              System.out.println("--------------------------si lo encontre y es este "
-                    + ""+biblioteca.getBiblioteca_nombre());
+            Query query = session.createQuery("from Biblioteca where id = :var");
+            query.setParameter("var", id);
             biblioteca = (Biblioteca) query.uniqueResult();
-            System.out.println("--------------------------si lo encontre y es este "
-                    + ""+biblioteca.getBiblioteca_nombre());
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             session.close();
         }
         return biblioteca;

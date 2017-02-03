@@ -21,7 +21,7 @@ public class AutorDAO{
     public void setSessionFactory (SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
-    
+     
     /**
      * inserta un autor 
      * @param nombre
@@ -82,13 +82,14 @@ public class AutorDAO{
      * @param id
      * @return 
      */
-    public Autor AutorPorID(int id){
+    public Autor AutorPorID(long id){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Autor lista = null;
         try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from Autor where id = "+id);
+            Query query = session.createQuery("from Autor where id = :var");
+            query.setParameter("var", id);
             lista = (Autor) query.uniqueResult();
         }catch(Exception e){
             e.printStackTrace();

@@ -8,16 +8,23 @@
         <title>Ejercicio</title>
     </head>
     <body>
+        
+        <form action="/SpringProject/abotenerAutor" method="POST">
+            id 
+           
+            <input type="text" id="nombre" name ="id"/>
+            <input type="submit" value="Ingresar"/>
+        </form>
         Crear libro
         <form action="/SpringProject/creaLibro" method="POST">
             nombre
             <input type="text" id="nombre" name ="nombre"/>
             paginas
-            <input type="text" id="nombre" name ="paginas"/>
+            <input type="text" id="paginas" name ="paginas"/>
             id biblioteca
-            <input type="text" id="nombre" name ="biblioteca_id"/>
+            <input type="text" id="biblioteca_id" name ="biblioteca_id"/>
             id autor
-            <input type="text" id="nombre" name ="autor_id"/>
+            <input type="text" id="autor_id" name ="autor_id"/>
             <input type="submit" value="Ingresar"/>
         </form>
         editar libro
@@ -40,7 +47,12 @@
             <input type="text" id="nombre" name ="nombre"/>
             <input type="submit" value="Ingresar"/>
         </form>
-
+        buscar bibiloteca
+        <form action="/SpringProject/buscarBiblioteca" method="POST">
+            nombre
+            <input type="text" id="id" name ="id"/>
+            <input type="submit" value="Ingresar"/>
+        </form>
         Ediar Biblioteca
         <form action="/SpringProject/editarBiblioteca" method="POST">
             id

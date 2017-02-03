@@ -53,14 +53,26 @@ public class EjemploController {
         String nombre = request.getParameter("nombre");
         String pag = request.getParameter("paginas");
         String idBilioteca = request.getParameter("idBilioteca");
-        String autorLibro = request.getParameter("autor_id");
-        Biblioteca blioteca = biblioteca_bd.getID(Integer.parseInt(idBilioteca));
-        Autor autor = autor_bd.AutorPorID(Integer.parseInt(autorLibro));
+        String autor_id = request.getParameter("autor_id");
+        Biblioteca blioteca = biblioteca_bd.getID(Long.parseLong(idBilioteca));
+        Autor autor = autor_bd.AutorPorID(Long.parseLong(autor_id));
 
         libro_bd.insert(nombre, Integer.parseInt(pag), blioteca, autor);
         model.addAttribute("nombre", nombre);
 
-        return new ModelAndView("confirmacion", model);
+        return new ModelAndView("bilioteca", model);
+    }
+
+    @RequestMapping(value = "/abotenerAutor", method = RequestMethod.POST)
+    public ModelAndView abotenerAutor(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
+        String id = request.getParameter("id");
+
+        Autor autor = autor_bd.AutorPorID(Long.parseLong(id));
+
+        String nombre = autor.getAutor_nombre();
+        model.addAttribute("id", id);
+        model.addAttribute("nombre", nombre);
+        return new ModelAndView("bilioteca", model);
     }
 
     /**
@@ -74,7 +86,6 @@ public class EjemploController {
         String pag = request.getParameter("paginas");
         String bib = request.getParameter("biblioteca_id");
         String autor = request.getParameter("autor_id");
-        
 
         Biblioteca bibl = biblioteca_bd.getID(Integer.parseInt(bib));
         Autor aut = autor_bd.AutorPorID(Integer.parseInt(autor));
@@ -88,6 +99,7 @@ public class EjemploController {
     /**
      * *
      * crear biblioteca
+     *
      * @param model
      * @param request
      * @return
@@ -100,6 +112,16 @@ public class EjemploController {
         biblioteca_bd.insert(nombre);
         model.addAttribute("nombre", nombre);
         return new ModelAndView("confirmacion", model);
+    }
+
+    @RequestMapping(value = "/buscarBiblioteca", method = RequestMethod.POST)
+    public ModelAndView buscarBiblioteca(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+
+        model.addAttribute("id", biblioteca_bd.getID(Long.parseLong(id)).getBiblioteca_id());
+        model.addAttribute("nombre", biblioteca_bd.getID(Long.parseLong(id)).getBiblioteca_nombre());
+        return new ModelAndView("bilioteca", model);
     }
 
     @RequestMapping(value = "/editarBiblioteca", method = RequestMethod.POST)
@@ -119,7 +141,6 @@ public class EjemploController {
     @RequestMapping(value = "/crearLibroConBiblioteca", method = RequestMethod.POST)
     public ModelAndView crearLibroConBiblioteca(ModelMap model, HttpServletRequest request) {
 
-     
         String nombreLribro = request.getParameter("nombreLibro");
         int pagiansLibro = Integer.parseInt(request.getParameter("paginasLibro"));
         int idAutor = Integer.parseInt(request.getParameter("idAutor"));
@@ -139,13 +160,11 @@ public class EjemploController {
         String nombre = request.getParameter("nombreAutor");
         String edad = request.getParameter("edadAutor");
         autor_bd.insert(nombre, Integer.parseInt(edad));
-        
+
         model.addAttribute("nombre", nombre);
 
         return new ModelAndView("confirmacion", model);
     }
-    
-   
 
     /**
      * *
@@ -160,31 +179,34 @@ public class EjemploController {
 
         return new ModelAndView("confirmacion", model);
     }
-    
+
     /**
      * -registrar comentario de un lector de un libro
+     *
      * @param model
      * @param request
-     * @return 
+     * @return
      */
-    @RequestMapping(value="/registrarLecturas", method = RequestMethod.POST)
-    public ModelAndView registrarLecturas(ModelMap model, HttpServletRequest request){
+    @RequestMapping(value = "/registrarLecturas", method = RequestMethod.POST)
+    public ModelAndView registrarLecturas(ModelMap model, HttpServletRequest request) {
         String idLecot = request.getParameter("idLecot");
         String idLibro = request.getParameter("idLibro");
         String comentario = request.getParameter("comentario");
-         Libro libro =libro_bd.porID(Integer.parseInt(idLibro));
+        Libro libro = libro_bd.porID(Integer.parseInt(idLibro));
         Lector lector = lector_bd.getId(idLecot);
-        lector_libro_bd.insert(lector,libro , comentario);
+        lector_libro_bd.insert(lector, libro, comentario);
         model.addAttribute("nombreLector", idLecot);
         model.addAttribute("nombreLibro", idLibro);
-        
-        return new ModelAndView("confirmacion", model); 
+
+        return new ModelAndView("confirmacion", model);
     }
+
     /**
      * dado un lector mostrar los libros que ha leido
+     *
      * @param model
      * @param request
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/mostrarLibrosdeLector", method = RequestMethod.POST)
     public ModelAndView mostrarLibrosdeLector(ModelMap model, HttpServletRequest request) {
@@ -195,16 +217,15 @@ public class EjemploController {
 
         return new ModelAndView("confirmacion", model);
     }
-    /***
-     * 
-     * 
-select * from biblioteca;
-select * from libro ;
-select * from autor;
-select * from lector_libro;
-select * from lector;
-insert  into libro (nombre, paginas,biblioteca_id,autor_id)values('sebas',31,1,1);
-insert  into lector (nombre, correo,id_libro)values ('rodrigo','rodrigo@ciencias.una',1);
-insert  into autor (nombre ,edad)  values('karim',19);
+    /**
+     * *
+     *
+     *
+     * select * from biblioteca; select * from libro ; select * from autor;
+     * select * from lector_libro; select * from lector; insert into libro
+     * (nombre, paginas,biblioteca_id,autor_id)values('sebas',31,1,1); insert
+     * into lector (nombre, correo,id_libro)values
+     * ('rodrigo','rodrigo@ciencias.una',1); insert into autor (nombre ,edad)
+     * values('karim',19);
      */
 }
