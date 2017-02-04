@@ -27,7 +27,7 @@ public class Lector {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
     @Column(name = "id")
-    private long Lector_id;
+    private int Lector_id;
     
     @Column(name = "nombre")
     private String Lector_nombre;
@@ -48,11 +48,11 @@ public class Lector {
         this.Lector_correo = null;
     }
 
-    public long getLector_id() {
+    public int getLector_id() {
         return Lector_id;
     }
 
-    public void setLector_id(long Lector_id) {
+    public void setLector_id(int Lector_id) {
         this.Lector_id = Lector_id;
     }
 

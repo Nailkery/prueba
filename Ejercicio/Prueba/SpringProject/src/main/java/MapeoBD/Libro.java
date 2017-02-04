@@ -37,7 +37,7 @@ public class Libro { // como sea  su nombre
 
     //colmnas de la base 
     @Column(name = "id") // nombre de la columana 
-    private long libro_id;// como lo vamos a manejar
+    private int libro_id;// como lo vamos a manejar
 
     @Column(name = "nombre")
     private String libro_nombre;
@@ -67,11 +67,11 @@ public class Libro { // como sea  su nombre
         this.libro_paginas = 0;
     }
 
-    public long getLibro_id() {
+    public int getLibro_id() {
         return libro_id;
     }
 
-    public void setLibro_id(long libro_id) {
+    public void setLibro_id(int libro_id) {
         this.libro_id = libro_id;
     }
 
@@ -98,18 +98,20 @@ public class Libro { // como sea  su nombre
     public void setBiblioteca(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
     }
-
-    public void set(String libro_nombre, int paginas, Biblioteca b, Autor a) {
-        this.libro_nombre = libro_nombre;
-        this.libro_paginas = paginas;
-        this.biblioteca = b;
-        this.autor = a;
-    }
-
-    public void set(String libro_nombre, int paginas, Autor a) {
-        this.libro_nombre = libro_nombre;
-        this.libro_paginas = paginas;
+public void setLibro( String libro_nombre, int libro_paginas, Biblioteca biblioteca, Autor autor) {
         
-        this.autor = a;
+        this.libro_nombre = libro_nombre;
+        this.libro_paginas = libro_paginas;
+        this.biblioteca = biblioteca;
+        this.autor = autor;
     }
+    public Libro( String libro_nombre, int libro_paginas, Biblioteca biblioteca, Autor autor) {
+        
+        this.libro_nombre = libro_nombre;
+        this.libro_paginas = libro_paginas;
+        this.biblioteca = biblioteca;
+        this.autor = autor;
+    }
+
+   
 }

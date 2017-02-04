@@ -31,7 +31,7 @@ public class Biblioteca {
 
     //colmnas de la base 
     @Column(name = "id") // nombre de la columana 
-    private long biblioteca_id;// como lo vamos a manejar
+    private int biblioteca_id;// como lo vamos a manejar
 
     @Column(name = "nombre")
     private String biblioteca_nombre;
@@ -48,11 +48,11 @@ public class Biblioteca {
         this.biblioteca_nombre = null;
     }
 
-    public long getBiblioteca_id() {
+    public int getBiblioteca_id() {
         return biblioteca_id;
     }
 
-    public void setBiblioteca_id(long libro_id) {
+    public void setBiblioteca_id(int libro_id) {
         this.biblioteca_id = libro_id;
     }
 

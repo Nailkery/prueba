@@ -26,10 +26,12 @@ public class Lector_LibroDAO {
         this.sessionFactory = sessionFactory;
     }
     
-    public String insert(Lector a, Libro l, String coment){
+    public String insert(Lector lector, Libro libro, String coment){
         Session session = sessionFactory.openSession();
         Lector_Libro s = new Lector_Libro();
-        s.set(l, a, coment);
+        
+        s.set(libro, lector, coment);
+        System.out.println(""+s.getLector_libro_comentario()+" "+s.getLector().getLector_nombre());
         try{
             session.save(s);
         }catch(Exception e){
@@ -37,7 +39,7 @@ public class Lector_LibroDAO {
         }finally{
             session.close();
         }
-        return a+" leyó "+l;
+        return lector.getLector_nombre()+" leyó "+libro;
     }
     
     public List porLector(Lector a){

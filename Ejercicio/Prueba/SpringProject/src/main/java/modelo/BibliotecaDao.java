@@ -78,7 +78,7 @@ public class BibliotecaDAO {
         Biblioteca biblioteca = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("from biblioteca where nombre = :var");
+            Query query = session.createQuery("from Biblioteca where nombre = :var");
             query.setParameter("var", nombre);
             biblioteca = (Biblioteca) query.uniqueResult();
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class BibliotecaDAO {
         return biblioteca;
     }
 
-    public Biblioteca getID(long id) {
+    public Biblioteca getID(int id) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Biblioteca biblioteca = null;

@@ -15,7 +15,7 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author luis
+ * @author Rodrigo
  */
 public class LibroDAO {
     private SessionFactory sessionFactory;
@@ -26,8 +26,8 @@ public class LibroDAO {
     
     public String insert(String nombre, int paginas, Biblioteca b, Autor a1){
         Session session = sessionFactory.openSession();
-        Libro a = new Libro();
-        a.set(nombre, paginas, b, a1);
+        Libro a = new Libro(nombre, paginas, b, a1);
+        
         try{
             session.save(a);
         }catch(Exception e){
@@ -40,7 +40,7 @@ public class LibroDAO {
    
     public String update(Libro l, String nombre, int paginas, Biblioteca b, Autor a1){
         Session session = sessionFactory.openSession();
-        l.set(nombre, paginas, b, a1);
+        l.setLibro(nombre, paginas, b, a1);
         try{
             session.update(l);
         }catch(Exception e){
@@ -51,13 +51,13 @@ public class LibroDAO {
         return nombre+ " actualizado";
     }
     
-    public Libro porID(long id){
+    public Libro porID(int id){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Libro lista = null;
         try{
             tx = session.beginTransaction();
-            Query query = session.createQuery("from libro where id = :var");
+            Query query = session.createQuery("from Libro where id = :var");
             query.setParameter("var", id);
             lista = (Libro) query.uniqueResult();
         }catch(Exception e){

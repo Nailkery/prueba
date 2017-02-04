@@ -55,7 +55,7 @@ public class LectorDAO {
         }
         return lista;
     }
-    public Lector getId(String id){
+    public Lector getId(int id){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Lector lector = null;

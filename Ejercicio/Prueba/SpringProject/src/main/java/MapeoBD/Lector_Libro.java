@@ -26,7 +26,7 @@ public class Lector_Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "id") // nombre de la columana 
-    private long lector_libro_id;// como lo vamos a manejar
+    private int lector_libro_id;// como lo vamos a manejar
 
     @ManyToOne
     @JoinColumn(name = "id_libro")
@@ -46,11 +46,11 @@ public class Lector_Libro {
         this.lector_libro_comentario = null;
     }
 
-    public long getLector_libro_id() {
+    public int getLector_libro_id() {
         return lector_libro_id;
     }
 
-    public void setLector_libro_id(long lector_libro_id) {
+    public void setLector_libro_id(int lector_libro_id) {
         this.lector_libro_id = lector_libro_id;
     }
 

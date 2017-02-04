@@ -8,9 +8,9 @@
         <title>Ejercicio</title>
     </head>
     <body>
-        
+        obtener autor
         <form action="/SpringProject/abotenerAutor" method="POST">
-            id 
+            id  autor
            
             <input type="text" id="nombre" name ="id"/>
             <input type="submit" value="Ingresar"/>
@@ -65,18 +65,18 @@
 
         crear Libro con bilioteca
         <form action="/SpringProject/crearLibroConBiblioteca" method="POST">
-            id libro
-            <input type="text" id="nombre" name ="idLibro"/>
+           
             nombre libro
             <input type="text" id="nombre" name ="nombreLibro"/>
             paginas libro
-            <input type="text" id="nombre" name ="pagiansLibro"/>
-            id autor
-            <input type="text" id="nombre" name ="idAutor"/>
-          
+            <input type="text" id="nombre" name ="paginasLibro"/>
             id Biblioteca
             <input type="text" id="nombre" name ="idBiblioteca"/>
-            <input type="submit" value="Ingresar"/>
+            
+            id autor
+            <input type="text" id="nombre" name ="idAutor"/>
+          <input type="submit" value="Ingresar"/>
+            
         </form>
         -Mostrar libros de el id de una biblioteca
         <form action="/SpringProject/" method="POST">

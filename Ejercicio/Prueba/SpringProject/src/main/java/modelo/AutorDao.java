@@ -22,6 +22,7 @@ public class AutorDAO{
         this.sessionFactory = sessionFactory;
     }
      
+    
     /**
      * inserta un autor 
      * @param nombre
@@ -82,7 +83,7 @@ public class AutorDAO{
      * @param id
      * @return 
      */
-    public Autor AutorPorID(long id){
+    public Autor AutorPorID(int id){
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         Autor lista = null;

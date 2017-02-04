@@ -50,28 +50,53 @@ public class EjemploController {
 
     @RequestMapping(value = "/creaLibro", method = RequestMethod.POST)
     public ModelAndView creaLibro(ModelMap model, HttpServletRequest request) {
-        String nombre = request.getParameter("nombre");
-        String pag = request.getParameter("paginas");
-        String idBilioteca = request.getParameter("idBilioteca");
-        String autor_id = request.getParameter("autor_id");
-        Biblioteca blioteca = biblioteca_bd.getID(Long.parseLong(idBilioteca));
-        Autor autor = autor_bd.AutorPorID(Long.parseLong(autor_id));
+        String nombre = "";
+        int pag = 1;
+        int autorID = 1;
+        int biliotecaID = 0;
+        try {
+            nombre = request.getParameter("nombre");
+            pag = Integer.parseInt(request.getParameter("paginas"));
+            autorID = Integer.parseInt(request.getParameter("autor_id"));
+            biliotecaID = Integer.parseInt(request.getParameter("biliotecaID"));
 
-        libro_bd.insert(nombre, Integer.parseInt(pag), blioteca, autor);
+        } catch (Exception e) {
+            System.out.println("" + e);
+            System.out.println(" error ");
+            biliotecaID = 1;
+
+        }
+
+        //Biblioteca bi = biblioteca_bd.getID(5);
+        Autor autor = autor_bd.AutorPorID(biliotecaID);
+        Biblioteca bi = biblioteca_bd.getID(biliotecaID);
+        libro_bd.insert(nombre, pag, bi, autor);
         model.addAttribute("nombre", nombre);
+        model.addAttribute("id", pag);
+//        long idB = biblioteca_bd.getID(Long.parseLong(idBilioteca)).getBiblioteca_id();
+//        System.out.println("el numero es " + idB);
+        return new ModelAndView("bilioteca", model);
+    }
 
+    @RequestMapping(value = "/buscarBiblioteca", method = RequestMethod.POST)
+    public ModelAndView buscarBiblioteca(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
+        String nombre = request.getParameter("nombre");
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        Biblioteca bi = biblioteca_bd.getID(id);
+        model.addAttribute("id", bi.getBiblioteca_id());
+        model.addAttribute("nombre", biblioteca_bd.getID(id).getBiblioteca_nombre());
         return new ModelAndView("bilioteca", model);
     }
 
     @RequestMapping(value = "/abotenerAutor", method = RequestMethod.POST)
     public ModelAndView abotenerAutor(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
 
-        Autor autor = autor_bd.AutorPorID(Long.parseLong(id));
+        Autor autor = autor_bd.AutorPorID(id);
 
-        String nombre = autor.getAutor_nombre();
-        model.addAttribute("id", id);
-        model.addAttribute("nombre", nombre);
+        model.addAttribute("id", autor.getAutor_id());
+        model.addAttribute("nombre", autor.getAutor_nombre());
         return new ModelAndView("bilioteca", model);
     }
 
@@ -81,16 +106,16 @@ public class EjemploController {
      */
     @RequestMapping(value = "/editarLibro", method = RequestMethod.POST)
     public ModelAndView editarLibro(ModelMap model, HttpServletRequest request) {
-        String idLibro = request.getParameter("idlibro");
+        int libroId = Integer.parseInt(request.getParameter("idlibro"));
         String nombre = request.getParameter("nombre");
-        String pag = request.getParameter("paginas");
-        String bib = request.getParameter("biblioteca_id");
-        String autor = request.getParameter("autor_id");
+        int pag = Integer.parseInt(request.getParameter("paginas"));
+        int biblioteca_id = Integer.parseInt(request.getParameter("biblioteca_id"));
+        int autorId = Integer.parseInt(request.getParameter("autor_id"));
 
-        Biblioteca bibl = biblioteca_bd.getID(Integer.parseInt(bib));
-        Autor aut = autor_bd.AutorPorID(Integer.parseInt(autor));
-
-        libro_bd.update(libro_bd.porID(Integer.parseInt(idLibro)), nombre, Integer.parseInt(pag), bibl, aut);
+        Biblioteca bilbioteca = biblioteca_bd.getID(biblioteca_id);
+        Autor autor = autor_bd.AutorPorID(autorId);
+        Libro libro = libro_bd.porID(libroId);
+        libro_bd.update(libro, nombre, pag, bilbioteca, autor);
         model.addAttribute("nombre", nombre);
 
         return new ModelAndView("confirmacion", model);
@@ -114,23 +139,13 @@ public class EjemploController {
         return new ModelAndView("confirmacion", model);
     }
 
-    @RequestMapping(value = "/buscarBiblioteca", method = RequestMethod.POST)
-    public ModelAndView buscarBiblioteca(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String nombre = request.getParameter("nombre");
-
-        model.addAttribute("id", biblioteca_bd.getID(Long.parseLong(id)).getBiblioteca_id());
-        model.addAttribute("nombre", biblioteca_bd.getID(Long.parseLong(id)).getBiblioteca_nombre());
-        return new ModelAndView("bilioteca", model);
-    }
-
     @RequestMapping(value = "/editarBiblioteca", method = RequestMethod.POST)
     public ModelAndView editarBiblioteca(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
         String nombre = request.getParameter("nombre");
         System.out.println("-------------------antes de acutlizaar ");
-        biblioteca_bd.update(biblioteca_bd.getID(Integer.parseInt(id)), nombre);
-
+        biblioteca_bd.update(biblioteca_bd.getID(id), nombre);
+        System.out.println("despues de alculizar");
         model.addAttribute("nombre", nombre);
         return new ModelAndView("confirmacion", model);
     }
@@ -140,12 +155,21 @@ public class EjemploController {
      */
     @RequestMapping(value = "/crearLibroConBiblioteca", method = RequestMethod.POST)
     public ModelAndView crearLibroConBiblioteca(ModelMap model, HttpServletRequest request) {
+        String nombreLribro = "";
+        int pagiansLibro = 0;
+        int idBiblioteca = 0;
+        int idAutor = 0;
+        try {
+            nombreLribro = request.getParameter("nombreLibro");
+            pagiansLibro = Integer.parseInt(request.getParameter("paginasLibro"));
+            idBiblioteca = Integer.parseInt(request.getParameter("idBiblioteca"));
+            idAutor = Integer.parseInt(request.getParameter("idAutor"));
 
-        String nombreLribro = request.getParameter("nombreLibro");
-        int pagiansLibro = Integer.parseInt(request.getParameter("paginasLibro"));
-        int idAutor = Integer.parseInt(request.getParameter("idAutor"));
-        String idBiblioteca = request.getParameter("idBiblioteca");
-        Biblioteca bibliote = biblioteca_bd.getID(Integer.parseInt(idBiblioteca));
+        } catch (Exception e) {
+            System.out.println("error" + e);
+            pagiansLibro = 10;
+        }
+        Biblioteca bibliote = biblioteca_bd.getID(idBiblioteca);
         Autor autor = autor_bd.AutorPorID(idAutor);
 
         libro_bd.insert(nombreLribro, pagiansLibro, bibliote, autor);
@@ -158,8 +182,8 @@ public class EjemploController {
     @RequestMapping(value = "/creaAutor", method = RequestMethod.POST)
     public ModelAndView creaAutor(ModelMap model, HttpServletRequest request) {
         String nombre = request.getParameter("nombreAutor");
-        String edad = request.getParameter("edadAutor");
-        autor_bd.insert(nombre, Integer.parseInt(edad));
+        int edad = Integer.parseInt(request.getParameter("edadAutor"));
+        autor_bd.insert(nombre, edad);
 
         model.addAttribute("nombre", nombre);
 
@@ -172,8 +196,8 @@ public class EjemploController {
      */
     @RequestMapping(value = "/mostrarLibrosBiblioteca", method = RequestMethod.POST)
     public ModelAndView mostrarLibrosBiblioteca(ModelMap model, HttpServletRequest request) {
-        String idBiblioteca = request.getParameter("idBiblioteca");
-        Biblioteca b = biblioteca_bd.getID(Integer.parseInt(idBiblioteca));
+        int idBiblioteca = Integer.parseInt(request.getParameter("idBiblioteca"));
+        Biblioteca b = biblioteca_bd.getID(idBiblioteca);
         List<Libro> lista = biblioteca_bd.cont(b);
         model.addAttribute("nombre", lista);
 
@@ -189,10 +213,10 @@ public class EjemploController {
      */
     @RequestMapping(value = "/registrarLecturas", method = RequestMethod.POST)
     public ModelAndView registrarLecturas(ModelMap model, HttpServletRequest request) {
-        String idLecot = request.getParameter("idLecot");
-        String idLibro = request.getParameter("idLibro");
+        int idLecot = Integer.parseInt(request.getParameter("idLecot"));
+        int idLibro = Integer.parseInt(request.getParameter("idLibro"));
         String comentario = request.getParameter("comentario");
-        Libro libro = libro_bd.porID(Integer.parseInt(idLibro));
+        Libro libro = libro_bd.porID(idLibro);
         Lector lector = lector_bd.getId(idLecot);
         lector_libro_bd.insert(lector, libro, comentario);
         model.addAttribute("nombreLector", idLecot);
@@ -210,7 +234,7 @@ public class EjemploController {
      */
     @RequestMapping(value = "/mostrarLibrosdeLector", method = RequestMethod.POST)
     public ModelAndView mostrarLibrosdeLector(ModelMap model, HttpServletRequest request) {
-        String idLector = request.getParameter("idLector");
+        int idLector = Integer.parseInt(request.getParameter("idLector"));
         List lectorLib = lector_libro_bd.porLector(lector_bd.getId(idLector));
 
         model.addAttribute("nombre", lectorLib);
